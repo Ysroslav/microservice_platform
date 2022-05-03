@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  
+  terminal_artel_postgesql:
+    image: postgres:13-alpine
+    container_name: terminal_artel_postgesql
+    ports:
+      - 5961:5432
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=artel_platform 
+    healthcheck:
+      test: ["CMD-SHELL", "PGPASSWORD=postgres pg_isready -U postgres -h postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 50  
+      
+  keycloak:
+    build: .
+    container_name: ck-theme_keycloak
+    ports:
+      - 8180:8080
+    environment:
+      DB_DATABASE: artel_platform
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_HTTP_PORT: 8080
+    command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"  
+    volumes:
+      - ./themes/demo:/opt/jboss/keycloak/themes/demo
+      - ./imports/realm-export.json:/opt/jboss/keycloak/realm-export.json
+    depends_on:
+      - terminal_artel_postgesql        
+      
+      

@@ -1,0 +1,75 @@
+spring:
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  application:
+    name: API-GATEWAY
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/auth/realms/demo
+        registration:
+          keycloak-spring-gateway-client:
+            provider: keycloak
+            client-id: artel-app
+            client-secret: e594a0dc-a373-47fb-85bc-aea471dc5877
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:8180/auth/realms/demo/protocol/openid-connect/certs"
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:8080"
+            allowedMethods:
+              - GET
+      routes:
+        - id: WEB-RATES
+          uri: lb://WEB-RATES
+          predicates:
+            - Path=/rates/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: WEB-RATES
+                fallbackuri: forward:/commonServiceFallBack
+        - id: WEB-ARTIST
+          uri: lb://WEB-ARTIST
+          predicates:
+            - Path=/artist/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: WEB-ARTIST
+                fallbackuri: forward:/artistServiceFallBack
+            - name: TokenRelay
+server:
+  port: 8086
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 4000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
