@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 @Service
@@ -23,6 +23,7 @@ public class RatesHandler {
         return ServerResponse
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(rates, String.class);
+                .body(rates, String.class)
+                .subscribeOn(Schedulers.boundedElastic());
     }
 }

@@ -15,7 +15,7 @@ spring:
           keycloak-spring-gateway-client:
             provider: keycloak
             client-id: artel-app
-            client-secret: e594a0dc-a373-47fb-85bc-aea471dc5877
+            client-secret: fa9e219a-6cc8-4f33-91cc-a81907c69b6a
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
       resourceserver:
@@ -73,3 +73,6 @@ management:
     web:
       exposure:
         include: hystrix.stream
+
+keycloak:
+  use-resource-role-mappings: false
