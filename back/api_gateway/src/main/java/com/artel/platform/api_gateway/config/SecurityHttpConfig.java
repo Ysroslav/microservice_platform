@@ -18,9 +18,9 @@ public class SecurityHttpConfig {
                 .authorizeExchange()
                 .anyExchange()
                 .authenticated()
-                .and()
-                .oauth2Login(); // to redirect to oauth2 login page.
-
+                .and().csrf().disable()
+                .oauth2Login()
+                .and().oauth2ResourceServer().jwt();// to redirect to oauth2 login page.
         return http.build();
     }
 }
