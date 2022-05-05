@@ -1,0 +1,150 @@
+swagger: '2.0'
+basePath:
+  /admin/api
+consumes:
+  - application/json
+produces:
+  - application/json
+# schemes:
+#   - http
+info:
+  description: This is a API for service of rates of artel platform
+  version: 1.0.0
+  title: Service User Interview API
+  contact:
+    email: yaroslavbodrov@mail.ru
+
+paths:
+  /v1/rate:
+    get:
+      summary: Get rate by id
+      operationId: getRateById
+      parameters:
+        - in: query
+          name: rate_id
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Rate'
+        404:
+          description: Not found
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"      
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"
+    post:
+      summary: Create a new rate
+      operationId: saveRate
+      parameters:
+        - in: body
+          name: rate
+          required: true
+          schema:
+            $ref: '#/definitions/RateNew'
+      responses:
+        201:
+          description: CREATED
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"
+    put:
+      summary: update rate
+      operationId: updateRate
+      parameters:
+        - in: body
+          name: rate
+          required: true
+          schema:
+            $ref: '#/definitions/Rate'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Rate'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"
+    delete: 
+      summary: delete rate
+      operationId: deleteRateById
+      parameters:
+        - in: query
+          name: rate_id
+          type: string
+          required: true
+      responses:
+        204:
+          description: Not content
+        404:
+          description: Not found
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"      
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"    
+definitions:
+  Rate:
+    type: object
+    required:
+      - id
+      - name
+      - description
+      - term_rate
+      - isActive
+      - price
+      - date_add
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description: 
+        type: string
+      term_rate:
+        type: integer
+      isActive:
+        type: boolean
+      price:
+        type: integer
+      date_add:
+        type: string
+        format: date-time
+  RateNew:
+    type: object
+    required:
+      - name
+      - description
+      - term_rate
+      - isActive
+      - price
+      - date_add
+    properties:
+      name:
+        type: string
+      description: 
+        type: string
+      term_rate:
+        type: integer
+      isActive:
+        type: boolean
+      price:
+        type: integer
+      date_add:
+        type: string
+        format: date-time      
+  ErrorResponseBody:
+    type: object
+    required:
+      - error
+      - message
+      - path
+      - status
+      - timestamp
