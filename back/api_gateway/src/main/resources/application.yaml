@@ -15,7 +15,7 @@ spring:
           keycloak-spring-gateway-client:
             provider: keycloak
             client-id: artel-app
-            client-secret: fa9e219a-6cc8-4f33-91cc-a81907c69b6a
+            client-secret: 1124a691-13e6-42d6-af4b-3c96bb536d6f
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
       resourceserver:
