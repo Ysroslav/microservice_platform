@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: DB_COMMON
+  profiles:
+    active: dev
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5441/artel_platform_common?schema=common
+    username: postgres
+    password: postgres
+    pool:
+      max-size: 10
+  lifecycle:
+    timeout-per-shutdown-phase: "10s"
+
+grpc:
+  server:
+    hostname: localhost
+    port: 9097
+
+server:
+  shutdown: graceful

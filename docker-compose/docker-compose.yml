@@ -16,7 +16,18 @@ services:
       test: ["CMD-SHELL", "PGPASSWORD=postgres pg_isready -U postgres -h postgres"]
       interval: 10s
       timeout: 5s
-      retries: 50  
+      retries: 50
+
+  common_postgesql:
+    image: postgres:13-alpine
+    container_name: common_postgesql
+    ports:
+      - 5441:5432
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=artel_platform_common      
       
   keycloak:
     build: .
@@ -37,6 +48,18 @@ services:
       - ./themes/demo:/opt/jboss/keycloak/themes/demo
       - ./imports/realm-export.json:/opt/jboss/keycloak/realm-export.json
     depends_on:
-      - terminal_artel_postgesql        
+      - terminal_artel_postgesql 
+
+  postgres_common:
+    image: flyway/flyway:7-alpine
+    command: migrate
+    volumes:
+      - ./flyway/migrations/core:/flyway/sql 
+    environment:
+      FLYWAY_URL: jdbc:postgresql://host.docker.internal:5441/artel_platform_common
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres  
+    depends_on:
+      - common_postgesql      
       
       

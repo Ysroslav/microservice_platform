@@ -18,7 +18,7 @@ paths:
   /v1/rates:
     get:
       summary: Get all rate by id
-      operationId: getAllRate
+      operationId: getAllRates
       responses:
         200:
           description: OK
@@ -28,23 +28,6 @@ paths:
           description: Not found
           schema:
             $ref: "#/definitions/ErrorResponseBody"      
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: "#/definitions/ErrorResponseBody"
-  /v1/rate/artist:          
-    post:
-      summary: Create a payment for artist
-      operationId: savePayment
-      parameters:
-        - in: body
-          name: rate
-          required: true
-          schema:
-            $ref: '#/definitions/Payment'
-      responses:
-        201:
-          description: CREATED
         500:
           description: Internal Server Error
           schema:
@@ -79,24 +62,7 @@ definitions:
         type: integer
       date_add:
         type: string
-        format: date-time
-  Payment:
-    type: object
-    required:
-      - payment_id
-      - user_id
-      - rate_id
-      - date_payment
-    properties:
-      payment_id:
-        type: string
-      user_id: 
-        type: string
-      rate_id:
-        type: string
-      date_payment:
-        type: string
-        format: date-time      
+        format: date-time     
   ErrorResponseBody:
     type: object
     required:
