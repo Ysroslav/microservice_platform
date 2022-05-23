@@ -15,7 +15,7 @@ spring:
           keycloak-spring-gateway-client:
             provider: keycloak
             client-id: artel-app
-            client-secret: 1124a691-13e6-42d6-af4b-3c96bb536d6f
+            client-secret: e592d287-fbc7-48e1-a393-86dd6923ef61
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
       resourceserver:
@@ -33,7 +33,8 @@ spring:
         - id: WEB-RATES
           uri: lb://WEB-RATES
           predicates:
-            - Path=/rates/**
+            - Path=/rate/**
+            - Path=/admin/rate/**
           filters:
             - name: CircuitBreaker
               args:
@@ -75,4 +76,4 @@ management:
         include: hystrix.stream
 
 keycloak:
-  use-resource-role-mappings: false
+  use-resource-role-mappings: true

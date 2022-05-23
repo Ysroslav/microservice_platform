@@ -1,6 +1,6 @@
 swagger: '2.0'
 basePath:
-  /admin/api
+  /admin/rate/api
 consumes:
   - application/json
 produces:

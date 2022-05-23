@@ -1,5 +1,7 @@
 package com.artel.platform.service_rates.handler;
 
+import com.artel.platform.service_rates.clients.RateClient;
+import com.artel.platform.service_rates.mapper.RateMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -17,13 +19,13 @@ import java.util.stream.Stream;
 @Slf4j
 public class RatesHandler {
 
+    private final RateClient rateClient;
+    private final RateMapper mapper;
 
-    public Mono<ServerResponse> getDataRates(final ServerRequest request) {
-        final var rates = Flux.fromStream(Stream.of("common", "ultimate", "vip"));
-        return ServerResponse
-                .ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(rates, String.class)
-                .subscribeOn(Schedulers.boundedElastic());
+    public Mono<ServerResponse> getAllRates(final ServerRequest request) {
+        return rateClient.getAllRateFromDataHandler()
+                .map(mapper::rateMapToRateDto)
+                .collectList()
+                .flatMap(rates -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(rates));
     }
 }

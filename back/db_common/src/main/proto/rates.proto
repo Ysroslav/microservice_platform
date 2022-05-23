@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package com.artel.platform.db_common.grpc;
+
+option java_package = "com.artel.platform.service_rates.grpc";
+option java_multiple_files = true;
+
+message Rate {
+  string id = 1;
+  string rateName = 2;
+  string description = 3;
+  string prise = 4;
+  int32 termRate = 5;
+  bool isActive = 6;
+  string dateAdd = 7;
+}
+
+message RatesRequest {
+}
+
+message RatesResponse {
+  repeated Rate rate = 1;
+}
+
+message RateByIdRequest {
+  string idRate = 1;
+}
+
+message RateByIdResponse {
+  Rate rate = 1;
+}
+
+message RateSaveRequest {
+  Rate rate = 1;
+}
+
+message RateSaveResponse {
+}
+
+message RateUpdateRequest {
+  Rate rate = 1;
+}
+
+message RateUpdateResponse {
+}
+
+
+message RateDeleteRequest {
+  string idRate = 1;
+}
+
+message RateDeleteResponse {
+}
+
+service RateService {
+  rpc GetAllRates(RatesRequest) returns (RatesResponse);
+  rpc GetRateById(RateByIdRequest) returns (RateByIdResponse);
+  rpc SaveRate(RateSaveRequest) returns (RateSaveResponse);
+  rpc DeleteRate(RateDeleteRequest) returns (RateDeleteResponse);
+  rpc UpdateRateById(RateUpdateRequest) returns (RateUpdateResponse);
+}

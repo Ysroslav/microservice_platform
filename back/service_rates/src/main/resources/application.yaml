@@ -1,6 +1,10 @@
 spring:
   application:
     name: WEB-RATES
+  webflux:
+    timeout: 5000
+    retryTimes: 3
+    retryPeriod: 200
 
 server:
   port: 8083
@@ -11,3 +15,14 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     preferIpAddress: true
+
+basePath:
+  common: /rate/api
+  admin: /admin/rate/api
+
+role: ADMIN
+  
+grpc:
+  client:
+    port: 9097
+    hostname: localhost
