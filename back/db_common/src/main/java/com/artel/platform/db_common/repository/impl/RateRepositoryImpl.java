@@ -42,7 +42,7 @@ public class RateRepositoryImpl implements RateRepository {
 
     @Override
     @Transactional
-    public Mono<UUID> save(final Rate rate){
+    public Mono<String> save(final Rate rate){
         log.info("start method save for rate {}", rate);
         return databaseClient.sql("INSERT INTO common.tbl_rate (rate_name, description, rate_prise, term, is_valid, date_add) " +
                            "VALUES (:rate_name, :description, :rate_prise, :term, :is_valid, :date_add)")
@@ -53,7 +53,7 @@ public class RateRepositoryImpl implements RateRepository {
                       .bind("term", rate.termRate())
                       .bind("is_valid", rate.isActive())
                       .bind("date_add", rate.dateAdd())
-                      .fetch().first().map(r -> (UUID) r.get("id"));
+                      .fetch().first().map(r -> r.get("id").toString());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class RateRepositoryImpl implements RateRepository {
         return databaseClient.sql("UPDATE common.tbl_rate SET rate_name=:rate_name, " +
                                   "description=:description, rate_prise=:rate_prise, " +
                                   "term=:term, is_valid=:is_valid, date_add=:date_add " +
-                                  "WHERE id =:idRate")
+                                  "WHERE id::text =:idRate ")
                              .bind("rate_name", rate.rateName())
                              .bind("description", rate.description())
                              .bind("rate_prise", rate.prise())
@@ -74,17 +74,17 @@ public class RateRepositoryImpl implements RateRepository {
     }
 
     @Override
-    public Mono<Rate> findRateById(final UUID id){
+    public Mono<Rate> findRateById(final String id){
         return databaseClient.sql("select r.id, r.rate_name, r.description, r.rate_prise, r.term, r.is_valid, r.date_add " +
-                                  "from common.tbl_rate r where r.id = :idRate")
+                                  "from common.tbl_rate r where r.id::text = :idRate")
                 .bind("idRate", id)
                 .map(mapper)
                 .first();
     }
 
     @Override
-    public Mono<Integer> deleteRateById(final UUID id){
-        return databaseClient.sql("delete from common.tbl_rate r where r.id = :idRate")
+    public Mono<Integer> deleteRateById(final String id){
+        return databaseClient.sql("delete from common.tbl_rate r where r.id::text = :idRate")
                 .bind("idRate", id)
                 .fetch().rowsUpdated();
     }

@@ -12,9 +12,9 @@ public interface RateClient {
 
     Mono<? extends Rate> getRateById(final UUID id);
 
-    Mono<Void> updateRate(final Rate rate);
+    Mono<Integer> updateRate(final Rate rate);
 
-    Mono<Void> saveRate(final Rate rate);
+    Mono<String> saveRate(final Rate rate);
 
-    Mono<Void> deleteRateById(final UUID id);
+    Mono<Integer> deleteRateById(final String id);
 }

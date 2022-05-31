@@ -35,6 +35,7 @@ message RateSaveRequest {
 }
 
 message RateSaveResponse {
+  string id = 1;
 }
 
 message RateUpdateRequest {
@@ -42,6 +43,7 @@ message RateUpdateRequest {
 }
 
 message RateUpdateResponse {
+  int32 rows = 1;
 }
 
 
@@ -50,6 +52,7 @@ message RateDeleteRequest {
 }
 
 message RateDeleteResponse {
+  int32 rows = 1;
 }
 
 service RateService {

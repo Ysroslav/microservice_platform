@@ -1,6 +1,7 @@
 package com.artel.platform.db_common.repository;
 
 import com.artel.platform.db_common.entity.Rate;
+import org.springframework.data.relational.core.sql.In;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -12,11 +13,11 @@ public interface RateRepository {
 
     Flux<Rate> findAllRates();
 
-    Mono<UUID> save(final Rate rate);
+    Mono<String> save(final Rate rate);
 
     Mono<Integer> update(final Rate rate);
 
-    Mono<Rate> findRateById(final UUID id);
+    Mono<Rate> findRateById(final String id);
 
-    Mono<Integer> deleteRateById(final UUID id);
+    Mono<Integer> deleteRateById(final String id);
 }

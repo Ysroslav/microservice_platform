@@ -14,7 +14,7 @@ public class RateGrpcMapper {
 
     public Rate rateToRateGrpc(final com.artel.platform.db_common.entity.Rate rateEntity){
         return Rate.newBuilder()
-                   .setId(rateEntity.id().toString())
+                   .setId(rateEntity.id())
                    .setRateName(rateEntity.rateName())
                    .setDescription(rateEntity.description())
                    .setPrise(convertLongToString(rateEntity.prise()))
@@ -23,7 +23,7 @@ public class RateGrpcMapper {
                    .setDateAdd(rateEntity.dateAdd().toString()).build();
     }
 
-    public com.artel.platform.db_common.entity.Rate rateGrpcToRate(final Rate rateGrpc, final UUID idRate){
+    public com.artel.platform.db_common.entity.Rate rateGrpcToRate(final Rate rateGrpc, final String idRate){
         return new com.artel.platform.db_common.entity.Rate(
                 idRate,
                 rateGrpc.getRateName(),

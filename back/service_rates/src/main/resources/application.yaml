@@ -26,3 +26,9 @@ grpc:
   client:
     port: 9097
     hostname: localhost
+
+util:
+  webflux:
+    retry-period: 200
+    retry-times: 3
+    timeout: 5000

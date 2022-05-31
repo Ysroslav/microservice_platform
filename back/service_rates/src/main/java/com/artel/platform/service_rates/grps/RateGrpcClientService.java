@@ -8,6 +8,7 @@ import com.artel.platform.service_rates.grpc.RateDeleteResponse;
 import com.artel.platform.service_rates.grpc.RateSaveRequest;
 import com.artel.platform.service_rates.grpc.RateSaveResponse;
 import com.artel.platform.service_rates.grpc.RateUpdateRequest;
+import com.artel.platform.service_rates.grpc.RateUpdateResponse;
 import com.artel.platform.service_rates.grpc.RatesRequest;
 import com.artel.platform.service_rates.grpc.RatesResponse;
 import com.artel.platform.service_rates.grpc.ReactorRateServiceGrpc;
@@ -68,22 +69,22 @@ public class RateGrpcClientService {
         return response.map(RateByIdResponse::getRate);
     }
 
-    public Mono<Void> saveRate(final Rate rate) {
+    public Mono<String> saveRate(final Rate rate) {
         final var response = blockingStub.saveRate(
                 RateSaveRequest.newBuilder().setRate(rate).build());
-        return response.flatMap(res -> Mono.empty());
+        return response.map(RateSaveResponse::getId);
     }
 
-    public Mono<Void> deleteRate(final String id) {
+    public Mono<Integer> deleteRate(final String id) {
         final var response = blockingStub.deleteRate(
                 RateDeleteRequest.newBuilder().setIdRate(id).build());
-        return response.flatMap(res -> Mono.empty());
+        return response.map(RateDeleteResponse::getRows);
     }
 
-    public Mono<Void> updateRate(final Rate rate) {
+    public Mono<Integer> updateRate(final Rate rate) {
         final var response = blockingStub.updateRateById(
                 RateUpdateRequest.newBuilder().setRate(rate).build());
-        return response.flatMap(res -> Mono.empty());
+        return response.map(RateUpdateResponse::getRows);
     }
 
 }

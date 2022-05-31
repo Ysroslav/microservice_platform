@@ -1,4 +1,4 @@
-package com.artel.platform.service_rates.exceptions;
+package com.artel.platform.starter_util.exceptions;
 
 import java.io.Serial;
 
