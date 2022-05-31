@@ -29,18 +29,18 @@ public class RateClientReactorGrpc implements RateClient {
     }
 
     @Override
-    public Mono<Void> updateRate(final Rate rate) {
+    public Mono<Integer> updateRate(final Rate rate) {
         return rateClient.updateRate(rate);
     }
 
     @Override
-    public Mono<Void> saveRate(final Rate rate) {
+    public Mono<String> saveRate(final Rate rate) {
         return rateClient.saveRate(rate);
     }
 
     @Override
-    public Mono<Void> deleteRateById(final UUID id) {
-        return rateClient.deleteRate(id.toString());
+    public Mono<Integer> deleteRateById(final String id) {
+        return rateClient.deleteRate(id);
     }
 
 

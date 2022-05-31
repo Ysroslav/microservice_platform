@@ -28,11 +28,7 @@ paths:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/Rate'
-        404:
-          description: Not found
-          schema:
-            $ref: "#/definitions/ErrorResponseBody"      
+            $ref: '#/definitions/Rate'     
         500:
           description: Internal Server Error
           schema:
@@ -65,8 +61,10 @@ paths:
       responses:
         200:
           description: OK
+        404:
+          description: Not found
           schema:
-            $ref: '#/definitions/Rate'
+            $ref: "#/definitions/ErrorResponseBody"   
         500:
           description: Internal Server Error
           schema:

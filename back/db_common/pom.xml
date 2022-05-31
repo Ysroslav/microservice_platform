@@ -54,11 +54,30 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.salesforce.servicelibs</groupId>
 			<artifactId>reactor-grpc-stub</artifactId>
 			<version>1.2.3</version>
 			<scope>compile</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-core</artifactId>

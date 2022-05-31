@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @GrpcService
 @RequiredArgsConstructor
 @Slf4j
@@ -40,7 +38,7 @@ public class RateServiceGrpcImpl extends ReactorRateServiceGrpc.RateServiceImplB
     public Mono<RateByIdResponse> getRateById(Mono<RateByIdRequest> request) {
         log.info("start method getRateById");
         return request.map(RateByIdRequest::getIdRate)
-                .flatMap(id -> repository.findRateById(UUID.fromString(id)))
+                .flatMap(repository::findRateById)
                 .map(result -> RateByIdResponse.newBuilder()
                                                .setRate(mapper.rateToRateGrpc(result)).build());
     }
@@ -50,21 +48,21 @@ public class RateServiceGrpcImpl extends ReactorRateServiceGrpc.RateServiceImplB
         log.info("start method saveRate");
         return request.map(RateSaveRequest::getRate)
                 .flatMap(rate -> repository.save(mapper.rateGrpcToRate(rate, null)))
-                      .map(result -> RateSaveResponse.newBuilder().build());
+                      .map(result -> RateSaveResponse.newBuilder().setId(result).build());
     }
 
     @Override
     public Mono<RateDeleteResponse> deleteRate(Mono<RateDeleteRequest> request) {
         log.info("start method deleteRate");
-        return request.flatMap(req -> repository.deleteRateById(UUID.fromString(req.getIdRate())))
-                .map(result -> RateDeleteResponse.newBuilder().build());
+        return request.flatMap(req -> repository.deleteRateById(req.getIdRate()))
+                .map(result -> RateDeleteResponse.newBuilder().setRows(result).build());
     }
 
     @Override
     public Mono<RateUpdateResponse> updateRateById(Mono<RateUpdateRequest> request) {
         log.info("start method updateRateById");
         return request.flatMap(req ->
-                              repository.update(mapper.rateGrpcToRate(req.getRate(), UUID.fromString(req.getRate().getId()))))
-                      .map(result -> RateUpdateResponse.newBuilder().build());
+                              repository.update(mapper.rateGrpcToRate(req.getRate(), req.getRate().getId())))
+                      .map(result -> RateUpdateResponse.newBuilder().setRows(result).build());
     }
 }

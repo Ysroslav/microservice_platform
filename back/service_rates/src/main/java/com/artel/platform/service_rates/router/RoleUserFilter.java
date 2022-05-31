@@ -1,8 +1,8 @@
 package com.artel.platform.service_rates.router;
 
-import com.artel.platform.service_rates.exceptions.IllegalRoleForRequestException;
 import com.artel.platform.service_rates.properties.CommonProperty;
-import com.artel.platform.service_rates.util.UtilException;
+import com.artel.platform.starter_util.exceptions.IllegalRoleForRequestException;
+import com.artel.platform.starter_util.handler.HandlerErrorForWeb;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.HandlerFilterFunction;
@@ -11,8 +11,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class RoleUserFilter implements HandlerFilterFunction<ServerResponse, ServerResponse> {
@@ -20,7 +18,7 @@ public class RoleUserFilter implements HandlerFilterFunction<ServerResponse, Ser
     private static final String RIGHT_ROLES_ERROR = "User doesn't have right";
 
     private final CommonProperty property;
-    private final UtilException utilException;
+    private final HandlerErrorForWeb handlerError;
 
     @Override
     public Mono<ServerResponse> filter(
@@ -42,7 +40,7 @@ public class RoleUserFilter implements HandlerFilterFunction<ServerResponse, Ser
     }
 
     private Mono<ServerResponse> getError(final ServerRequest request){
-        return utilException.getAttributesError(
+        return handlerError.getAttributesError(
                 new IllegalRoleForRequestException(RIGHT_ROLES_ERROR),
                 request);
     }

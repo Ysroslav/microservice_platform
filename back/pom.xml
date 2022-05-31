@@ -57,6 +57,7 @@
 		<module>service_artist</module>
 		<module>service_rates</module>
 		<module>db_common</module>
+		<module>starter_util</module>
 	</modules>
 
 	<build>

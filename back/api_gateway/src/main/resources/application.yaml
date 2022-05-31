@@ -40,6 +40,7 @@ spring:
               args:
                 name: WEB-RATES
                 fallbackuri: forward:/commonServiceFallBack
+
         - id: WEB-ARTIST
           uri: lb://WEB-ARTIST
           predicates:
