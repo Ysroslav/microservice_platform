@@ -10,6 +10,7 @@ public record RateDTO(
         BigDecimal prise,
         int termRate,
         boolean isActive,
+        //boolean isPopular,
         LocalDateTime dateAdd
 ) {
 }

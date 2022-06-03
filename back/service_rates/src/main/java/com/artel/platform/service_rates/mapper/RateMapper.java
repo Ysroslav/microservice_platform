@@ -3,15 +3,17 @@ package com.artel.platform.service_rates.mapper;
 import com.artel.platform.service_rates.dto.RateDTO;
 import com.artel.platform.service_rates.grpc.Rate;
 import com.artel.platform.service_rates.util.ParseUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
+@Slf4j
 public class RateMapper {
 
     public RateDTO rateMapToRateDto(final Rate rate) {
+        log.info("Rate {}", rate);
             return new RateDTO(
                     rate.getId(),
                     rate.getRateName(),

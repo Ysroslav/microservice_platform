@@ -1,7 +1,7 @@
 package com.artel.platform.service_rates.clients.impl;
 
 import com.artel.platform.service_rates.clients.RateClient;
-import com.artel.platform.service_rates.grpc.Rate;
+import com.artel.platform.service_rates.grps.Rate;
 import com.artel.platform.service_rates.grps.RateGrpcClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
