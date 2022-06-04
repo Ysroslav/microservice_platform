@@ -9,6 +9,7 @@ CREATE TABLE common.tbl_rate (
 	rate_prise real,
 	term int,
 	is_valid bool NULL,
+	is_popular bool not NULL default false,
 	date_add timestamp NOT NULL,
 	CONSTRAINT tbl_artist_pk PRIMARY KEY (id)
 );

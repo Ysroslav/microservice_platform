@@ -34,6 +34,9 @@ spring:
           uri: lb://WEB-RATES
           predicates:
             - Path=/rate/**
+        - id: WEB-ADMIN
+          uri: lb://WEB-RATES
+          predicates:
             - Path=/admin/rate/**
           filters:
             - name: CircuitBreaker

@@ -10,6 +10,7 @@ public record Rate(
         long prise,
         int termRate,
         boolean isActive,
+        boolean isPopular,
         LocalDateTime dateAdd
 ) {
 }

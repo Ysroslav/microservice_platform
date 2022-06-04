@@ -12,7 +12,8 @@ message Rate {
   string prise = 4;
   int32 termRate = 5;
   bool isActive = 6;
-  string dateAdd = 7;
+  bool isPopular = 7;
+  string dateAdd = 8;
 }
 
 message RatesRequest {

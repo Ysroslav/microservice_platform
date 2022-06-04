@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component
 public class RateGrpcMapper {
@@ -20,6 +19,7 @@ public class RateGrpcMapper {
                    .setPrise(convertLongToString(rateEntity.prise()))
                    .setTermRate(rateEntity.termRate())
                    .setIsActive(rateEntity.isActive())
+                   .setIsPopular(rateEntity.isPopular())
                    .setDateAdd(rateEntity.dateAdd().toString()).build();
     }
 
@@ -31,6 +31,7 @@ public class RateGrpcMapper {
                 convertStringToLong(rateGrpc.getPrise()),
                 rateGrpc.getTermRate(),
                 rateGrpc.getIsActive(),
+                rateGrpc.getIsPopular(),
                 LocalDateTime.parse(rateGrpc.getDateAdd())
         );
     }

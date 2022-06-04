@@ -22,6 +22,7 @@ public class RateMapper implements BiFunction<Row, RowMetadata, Rate> {
                 Objects.requireNonNull(row.get("rate_prise", Long.class)),
                 Objects.requireNonNull(row.get("term", Integer.class)),
                 Objects.requireNonNull(row.get("is_valid", Boolean.class)),
+                Objects.requireNonNull(row.get("is_popular", Boolean.class)),
                 row.get("date_add", LocalDateTime.class)
         );
     }
@@ -34,6 +35,7 @@ public class RateMapper implements BiFunction<Row, RowMetadata, Rate> {
                 (Long) map.get("rate_prise"),
                 (Integer) map.get("term"),
                 (Boolean) map.get("is_valid"),
+                (Boolean) map.get("is_popular"),
                 (LocalDateTime) map.get("date_add")
         );
     }
