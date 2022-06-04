@@ -21,6 +21,7 @@ public class RateMapper {
                     ParseUtil.convertStringToBigDecimal(rate.getPrise()),
                     rate.getTermRate(),
                     rate.getIsActive(),
+                    rate.getIsPopular(),
                     LocalDateTime.parse(rate.getDateAdd())
             );
     }
@@ -33,6 +34,7 @@ public class RateMapper {
                 .setPrise(rateDto.prise().toString())
                 .setTermRate(rateDto.termRate())
                 .setIsActive(rateDto.isActive())
+                .setIsPopular(rateDto.isPopular())
                 .setDateAdd(rateDto.dateAdd().toString()).build();
     }
 }
