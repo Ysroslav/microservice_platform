@@ -68,70 +68,7 @@ services:
       FLYWAY_USER: postgres
       FLYWAY_PASSWORD: postgres  
     depends_on:
-      - common_postgesql
-
-  eureka:
-    image: yaros777/eureka
-    ports:
-      - 8761:8761
-    command: bash -c "java -jar app.jar"
-    networks: 
-      - artel
-      
-  api-gateway:
-    image: yaros777/api_gateway
-    container_name: api-gateway
-    expose:
-      - "8086"
-    ports:
-      - 8086:8086
-    links:
-      - keycloak 
-      - eureka     
-    command: bash -c "java -jar app.jar"
-    networks: 
-      - artel
-    depends_on:
-      keycloak:
-        condition: service_healthy 
-
-  db-common:
-    image: yaros777/db_common
-    container_name: db-common
-    expose:
-      - "9097"
-    ports:
-      - 9097:9097
-    links:
-      - common_postgesql
-      - eureka
-    networks: 
-      - artel
-    depends_on:
-      - common_postgesql 
-
-  service_rates:
-    image: yaros777/service_rates
-    ports:
-      - 8083:8083
-    links:
-      - db-common
-      - eureka
-    networks: 
-      - artel
-    depends_on:
-      - db-common 
-
-  artel_front:
-    image: yaros777/artel_front
-    ports:
-      - 4040:4040
-    links:
-      - api-gateway
-    networks: 
-      - artel
-    depends_on:
-      - api-gateway      
+      - common_postgesql    
           
    
 networks:

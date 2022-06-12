@@ -31,14 +31,15 @@ public class RatesHandler {
     private final WebfluxHandler webfluxHandler;
 
     public Mono<ServerResponse> getAllRates(final ServerRequest request) {
-        return webfluxHandler.handleRequestReactive(rateClient.getAllRateFromDataHandler()
-                .map(mapper::rateMapToRateDto))
+        return rateClient.getAllRateFromDataHandler()
+                .map(mapper::rateMapToRateDto)
                 .collectList()
-                .map(rates -> rates.stream().sorted(Comparator.comparing(RateDTO::prise)).toList())
+                .map(rates ->
+                        rates.stream().sorted(Comparator.comparing(RateDTO::prise)).toList())
                 .map(this::getListWithPopular)
-                .flatMap(rates -> getResult(rates, request))
-                .onErrorResume(e ->  handlerError
-                        .getAttributesError(new MethodHandlerException(e.getMessage(), RatesHandler.class, "getAllRates"), request));
+                .flatMap(rates -> getResult(rates, request));
+                //.onErrorResume(e ->  handlerError
+                        //.getAttributesError(new MethodHandlerException(e.getMessage(), RatesHandler.class, "getAllRates"), request));
     }
 
     private Mono<ServerResponse> getResult(final List<RateDTO> rates, ServerRequest request) {
@@ -55,6 +56,9 @@ public class RatesHandler {
         List<RateDTO> result = new LinkedList<>(rates);
         final int index = (int) IntStream.range(0, rates.size())
                                    .takeWhile(i -> !rates.get(i).isPopular()).count();
+        if (index == rates.size()) {
+            return rates;
+        }
         final var rate = result.remove(index);
         if (result.size() == 1) {
             result.add(0, rate);

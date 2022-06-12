@@ -79,4 +79,8 @@ public class RatesAdminHandler {
         }
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(result);
     }
+
+    public Mono<ServerResponse> up(ServerRequest request) {
+        return ServerResponse.ok().bodyValue("UP");
+    }
 }
