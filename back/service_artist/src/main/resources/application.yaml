@@ -1,1 +1,16 @@
+server:
+  port: 8082
 
+spring:
+  webflux:
+    timeout: 5000
+
+  application:
+    name: WEB-ARTIST
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true

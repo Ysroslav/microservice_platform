@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  
+  terminal_artel_postgesql:
+    image: postgres:13-alpine
+    container_name: terminal_artel_postgesql
+    ports:
+      - 5961:5432
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=artel_platform 
+    healthcheck:
+      test: ["CMD-SHELL", "PGPASSWORD=postgres pg_isready -U postgres -h postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 50
+
+  common_postgesql:
+    image: postgres:13-alpine
+    container_name: common_postgesql
+    ports:
+      - 5441:5432
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=artel_platform_common      
+      
+  keycloak:
+    image: jboss/keycloak:latest
+    container_name: ck-theme_keycloak
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://keycloak:8080/auth/"]
+      interval: 5s
+      timeout: 10s
+      retries: 50
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      DB_DATABASE: artel_platform
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_HTTP_PORT: 8080
+    command:
+      - "-Dkeycloak.import=/opt/jboss/keycloak/realm-export.json"  
+    volumes:
+      - ./themes/demo:/opt/jboss/keycloak/themes/demo
+      - ./imports/realm-export.json:/opt/jboss/keycloak/realm-export.json
+    depends_on:
+      - terminal_artel_postgesql  
+    networks: 
+      - artel
+
+  postgres_common:
+    image: flyway/flyway:7-alpine
+    command: migrate
+    volumes:
+      - ./flyway/migrations/core:/flyway/sql 
+    environment:
+      FLYWAY_URL: jdbc:postgresql://host.docker.internal:5441/artel_platform_common
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres  
+    depends_on:
+      - common_postgesql     
+          
+   
+networks:
+  artel:
+    name: artel  
+    external: true

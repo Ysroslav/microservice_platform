@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.artel.platform.starter_util.config.ErrorHandlerConfiguration, \
+  com.artel.platform.starter_util.config.WebfluxConfiguration

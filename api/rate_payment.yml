@@ -1,0 +1,73 @@
+swagger: '2.0'
+basePath:
+  /rate/api
+consumes:
+  - application/json
+produces:
+  - application/json
+# schemes:
+#   - http
+info:
+  description: This is a API for service of rates of artel platform
+  version: 1.0.0
+  title: Service User Interview API
+  contact:
+    email: yaroslavbodrov@mail.ru
+
+paths:
+  /v1/rates:
+    get:
+      summary: Get all rate by id
+      operationId: getAllRates
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ListRates'
+        404:
+          description: Not found
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"      
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/ErrorResponseBody"
+definitions:
+  ListRates:
+    type: array
+    items: 
+      $ref: '#/definitions/Rate'
+  Rate:
+    type: object
+    required:
+      - id
+      - name
+      - description
+      - term_rate
+      - isActive
+      - price
+      - date_add
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description: 
+        type: string
+      term_rate:
+        type: integer
+      isActive:
+        type: boolean
+      price:
+        type: integer
+      date_add:
+        type: string
+        format: date-time     
+  ErrorResponseBody:
+    type: object
+    required:
+      - error
+      - message
+      - path
+      - status
+      - timestamp
