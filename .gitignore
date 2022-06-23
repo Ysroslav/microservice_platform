@@ -1,4 +1,5 @@
 target/
+docker-compose/zk-single-kafka-single
 .mvn/wrapper
 !**/src/main/**/target/
 !**/src/test/**/target/
