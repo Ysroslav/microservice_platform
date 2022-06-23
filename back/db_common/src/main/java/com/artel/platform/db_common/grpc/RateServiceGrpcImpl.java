@@ -28,6 +28,7 @@ public class RateServiceGrpcImpl extends ReactorRateServiceGrpc.RateServiceImplB
 
     @Override
     public Mono<RatesResponse> getAllRates(Mono<RatesRequest> request) {
+        log.info("start method getAllRates");
         return repository.findAllRates()
                          .map(mapper::rateToRateGrpc)
                          .collectList()

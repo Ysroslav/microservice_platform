@@ -120,18 +120,7 @@ services:
     networks: 
       - artel
     depends_on:
-      - db-common 
-
-  artel_front:
-    image: yaros777/artel_front
-    ports:
-      - 4040:4040
-    links:
-      - api-gateway
-    networks: 
-      - artel
-    depends_on:
-      - api-gateway      
+      - db-common      
           
    
 networks:

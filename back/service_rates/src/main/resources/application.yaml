@@ -1,4 +1,53 @@
 spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - prod
+  application:
+    name: WEB-RATES
+  webflux:
+    timeout: 5000
+    retryTimes: 3
+    retryPeriod: 200
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka
+  instance:
+    preferIpAddress: true
+
+basePath:
+  common: /rate/api
+  admin: /admin/rate/api
+
+role: ADMIN
+  
+grpc:
+  client:
+    port: 9097
+    hostname: db-common
+
+util:
+  webflux:
+    retry-period: 200
+    retry-times: 3
+    timeout: 5000
+
+---
+spring:
+  config:
+    activate:
+      on-profile:
+        - dev
   application:
     name: WEB-RATES
   webflux:
@@ -21,7 +70,7 @@ basePath:
   admin: /admin/rate/api
 
 role: ADMIN
-  
+
 grpc:
   client:
     port: 9097

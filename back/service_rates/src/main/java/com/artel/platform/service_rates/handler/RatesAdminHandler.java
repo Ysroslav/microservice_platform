@@ -13,11 +13,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyExtractor;
+import org.springframework.web.reactive.function.BodyExtractors;
+import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +36,7 @@ public class RatesAdminHandler {
     private final RateMapper mapper;
     private final HandlerErrorForWeb handlerError;
     private final WebfluxHandler webfluxHandler;
+
 
     public Mono<ServerResponse> getRateById(final ServerRequest request) {
         final var idRate = request.queryParam("rate_id")
@@ -78,5 +85,9 @@ public class RatesAdminHandler {
             return handlerError.getAttributesError(new NotFoundObjectException(methodName + " not found", RatesAdminHandler.class), request);
         }
         return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(result);
+    }
+
+    public Mono<ServerResponse> up(ServerRequest request) {
+        return ServerResponse.ok().bodyValue("UP");
     }
 }

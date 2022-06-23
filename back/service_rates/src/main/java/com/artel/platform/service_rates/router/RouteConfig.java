@@ -34,6 +34,7 @@ public class RouteConfig {
                 .POST(path + "/v1/rate", handler::saveRate)
                 .PUT(path + "/v1/rate", handler::updateRate)
                 .DELETE(path + "/v1/rate", handler::deleteRateById)
+                .GET(path + "/up", handler::up)
                 //.filter(filter) TODO filter for check role admin
                 .build();
     }
