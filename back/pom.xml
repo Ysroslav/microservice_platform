@@ -58,6 +58,8 @@
 		<module>service_rates</module>
 		<module>db_common</module>
 		<module>starter_util</module>
+		<module>service_payment</module>
+		<module>db_artist</module>
 	</modules>
 
 	<build>

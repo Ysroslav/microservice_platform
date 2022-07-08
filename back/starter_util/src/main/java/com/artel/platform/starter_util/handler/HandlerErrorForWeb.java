@@ -4,9 +4,13 @@ import com.artel.platform.starter_util.exceptions.IllegalRightsHeadersInRequestE
 import com.artel.platform.starter_util.exceptions.IllegalRoleForRequestException;
 import com.artel.platform.starter_util.exceptions.NotFoundObjectException;
 import com.artel.platform.starter_util.exceptions.ParseDataConvertException;
+import com.artel.platform.starter_util.exceptions.ValidationRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -59,6 +63,21 @@ public class HandlerErrorForWeb {
         if (serverException instanceof NullPointerException) {
             status = HttpStatus.NOT_FOUND;
         }
+
+        if (serverException instanceof ValidationRequestException) {
+            status = HttpStatus.BAD_REQUEST;
+        }
+
         return status;
+    }
+
+    public static <T > void validateObject(T target, Validator validator){
+        final Errors errors = new BeanPropertyBindingResult(
+                target,
+                target.getClass().getName());
+        validator.validate(target, errors);
+        if (!errors.getAllErrors().isEmpty()){
+            throw new ValidationRequestException("Payment not validate");
+        }
     }
 }

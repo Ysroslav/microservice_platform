@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: DB_ARTIST
+  profiles:
+    active: dev
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5961/artel_platform?schema=artist
+    username: postgres
+    password: postgres
+    pool:
+      max-size: 10
+  lifecycle:
+    timeout-per-shutdown-phase: "10s"
+  webflux:
+    timeout: 3000
+
+server:
+  shutdown: graceful
+
+grpc:
+  server:
+    port: 5015

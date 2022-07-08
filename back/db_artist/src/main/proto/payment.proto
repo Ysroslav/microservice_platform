@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package com.artel.platform.db_artist.grpc;
+
+option java_package = "com.artel.platform.service_payment.grpc";
+option java_multiple_files = true;
+
+message PaymentArtist {
+  string email = 1;
+  string paymentId = 2;
+  string rateId = 3;
+}
+
+message PaymentArtistRequest {
+  PaymentArtist payment = 1;
+}
+
+message PaymentArtistResponse {
+}
+
+
+service PaymentArtistService {
+  rpc AddPaymentArtis(PaymentArtistRequest) returns (PaymentArtistResponse);
+}
