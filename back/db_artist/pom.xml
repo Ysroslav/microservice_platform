@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.artel.platform</groupId>
+		<artifactId>artel-platform</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>db_artist</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>db_artist</name>
+	<description>Demo project for Spring Boot</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.r2dbc</groupId>
+			<artifactId>r2dbc-postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>net.devh</groupId>
+			<artifactId>grpc-server-spring-boot-starter</artifactId>
+			<version>2.13.1.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-netty</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-protobuf</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-stub</artifactId>
+			<version>1.42.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.salesforce.servicelibs</groupId>
+			<artifactId>reactor-grpc-stub</artifactId>
+			<version>1.2.3</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor</groupId>
+			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+
+
+</project>

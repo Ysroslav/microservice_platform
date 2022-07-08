@@ -68,7 +68,39 @@ services:
       FLYWAY_USER: postgres
       FLYWAY_PASSWORD: postgres  
     depends_on:
-      - common_postgesql     
+      - common_postgesql 
+      
+  postgres_artel:
+    image: flyway/flyway:7-alpine
+    command: migrate
+    volumes:
+      - ./flyway/migrations/artist:/flyway/sql 
+    environment:
+      FLYWAY_URL: jdbc:postgresql://host.docker.internal:5961/artel_platform
+      FLYWAY_USER: postgres
+      FLYWAY_PASSWORD: postgres  
+    depends_on:
+      - terminal_artel_postgesql    
+
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.0
+    restart: always
+    container_name: artel_mongo
+    environment:
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: password123
+      BITNAMI_DEBUG: "false"
+      ALLOW_EMPTY_PASSWORD: "no"
+      MONGODB_SYSTEM_LOG_VERBOSITY: "0"
+      ONGODB_DISABLE_SYSTEM_LOG: "no"
+      MONGODB_DISABLE_JAVASCRIPT: "no"
+      MONGODB_ENABLE_JOURNAL: "yes"
+      MONGODB_ENABLE_IPV6: "no"
+      MONGODB_ENABLE_DIRECTORY_PER_DB: "no"
+    ports:
+      - "27017:27017"
+    networks: 
+      - artel      
           
    
 networks:

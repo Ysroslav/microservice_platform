@@ -1,0 +1,53 @@
+server:
+  port: 8001
+
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      uri: mongodb://root:password123@localhost:27017
+      username: root
+      password: password123
+      size: 10000000
+      maxDocument: 20
+      database: artel
+      connectTimeout: 1000
+      readTimeout: 1000
+      serverSelectTimeout: 1000
+
+util:
+  webflux:
+    timeout: 5000
+    retryTimes: 3
+    retryPeriod: 200
+
+
+path:
+  front: /api/v1
+
+config:
+  fieldIndex: keyIdempotent
+
+payment:
+  path: http://localhost:7070
+  timeout: 5000
+  return_url: http://localhost:4040
+  payment_url: /bank/api/payment
+  idempotence: Idempotence-Key
+  client: artel
+  secret: qwerty12345
+  redirect_url: http://localhost:7070/bank/api/index
+  check_payment_url: /bank/api/payments/
+
+grpc:
+  db_artist:
+    client:
+      port: 5015
+      hostname: localhost
