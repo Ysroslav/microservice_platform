@@ -8,6 +8,7 @@ import com.artel.platform.starter_util.exceptions.IllegalParamInRequestException
 import com.artel.platform.starter_util.handler.HandlerErrorForWeb;
 import com.artel.platform.starter_util.handler.WebfluxHandler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -16,6 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentHandler {
 
     private final PaymentService paymentService;
@@ -24,27 +26,27 @@ public class PaymentHandler {
 
 
     public Mono<ServerResponse> createPayment(ServerRequest request) {
+        log.info("start createPayment");
         return webfluxHandler.handleRequestReactive(
                 request
                 .bodyToMono(PaymentRateInputDTO.class)
                 .doOnNext(payment -> HandlerErrorForWeb.validateObject(payment, new PaymentRateInputValidation()))
                 .flatMap(paymentService::createPayment)
                              )
-                .flatMap(a -> ServerResponse.status(HttpStatus.CREATED).build())
+                .flatMap(a ->
+                        ServerResponse.status(HttpStatus.CREATED).bodyValue(a.confirmation().confirmationUrl())
+                )
                 .onErrorResume(e -> handlerError.getAttributesError(e, request));
     }
 
-    public Mono<ServerResponse> redirectForPayment(ServerRequest request) {
-        return null;
-    }
 
     public Mono<ServerResponse> updatePayment(ServerRequest request) {
-        final var clientId = request.queryParam("client_id")
+        final var key = request.queryParam("key")
                 .orElseThrow(() -> new IllegalParamInRequestException(
-                        "key_idempotent not found", PaymentHandler.class, "updatePayment"));
+                        "key payment not found", PaymentHandler.class, "updatePayment"));
 
         return webfluxHandler.handleRequestReactive(
-                paymentService.updateStatusPayment(PaymentProcess.PAYMENT_REDIRECT_APP, clientId)
+                paymentService.updateStatusPayment(PaymentProcess.PAYMENT_REDIRECT_APP, key)
                              )
                 .flatMap(result -> ServerResponse.status(HttpStatus.CREATED).build())
                 .onErrorResume(e -> handlerError.getAttributesError(e, request));
@@ -55,9 +57,8 @@ public class PaymentHandler {
                                          .orElseThrow(() -> new IllegalParamInRequestException(
                                                  "header client_id not found", PaymentHandler.class, "checkPayment"));
         return webfluxHandler.handleRequestReactive(
-                paymentService.checkStatusPayment(clientId)
-                             )
-                             .flatMap(a -> ServerResponse.ok().bodyValue(a.getValue()))
+                paymentService.checkStatusPayment(clientId))
+                             .flatMap(a -> ServerResponse.ok().bodyValue(a))
                              .onErrorResume(e -> handlerError.getAttributesError(e, request));
     }
 }

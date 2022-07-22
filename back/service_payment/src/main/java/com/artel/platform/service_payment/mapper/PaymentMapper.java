@@ -61,7 +61,9 @@ public class PaymentMapper {
     private ConfirmationInputDTO getConfirmationFromModel(final Payment payment) {
         return new ConfirmationInputDTO(
                 ConfirmationType.REDIRECT,
-                commonProperty.getReturnUrl()
+                commonProperty.getReturnUrl() +
+                "?key=" +
+                payment.getKeyIdempotent()
         );
     }
 
