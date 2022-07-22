@@ -38,7 +38,7 @@ config:
 payment:
   path: http://localhost:7070
   timeout: 5000
-  return_url: http://localhost:4040
+  return_url: http://localhost:4040/#/artist
   payment_url: /bank/api/payment
   idempotence: Idempotence-Key
   client: artel
